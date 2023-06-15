@@ -1,0 +1,31 @@
+trigger: none
+name: Deploy Azure OPA Policy
+
+variables:
+  # - group: 'flux-setup-dev-cluster'
+  - group: 'jm-fy23-aks-spoke'
+  - name: azureServiceConnection
+    value: jmasengesho-internal-subscription
+
+pool:
+  vmImage: $(vmImageName)
+  name: $(agentPoolName)
+
+steps:
+- task: AzureCLI@2
+  displayName: Azure AKS OPA Policy
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      az deployment group create \
+                                --resource-group '$(app_name_prefix)-$(red_dog_resource_group_name)' \
+                                --template-file 'red-dog-iac/main.bicep' \
+                                --parameters uniqueServiceName=$(app_name_prefix) \
+                                --parameters currentUserId='1a35cd6f-8e3e-46c7-bad5-8bd9658c23a3' \
+                                # --parameters gitRepository=$(adminGitRepository) \
+                                # --parameters namespace=$(adminConfigNamespace) \
+                                # --parameters sourceKind='GitRepository' \
+                                # --parameters scope='cluster'
