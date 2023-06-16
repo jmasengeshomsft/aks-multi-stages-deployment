@@ -1,6 +1,6 @@
 # spoke_name = "mfg-pg-prod"
-hub_vnet_name = "vnet-hub-aks-playg"
-hub_resource_group_name = "aks-playg-hub"
+hub_vnet_name = "vnet-hub-nvidia"
+hub_resource_group_name = "nvidia-hub-rg"
 # spoke_vnet_name = "vnet-spoke-mfg-pg-prod-001"
 privatelink_subnet_name = "sn-plendpoints"
 # spoke_resource_group_name = "mfg-pg-prod-rg"

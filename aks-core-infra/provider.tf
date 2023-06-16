@@ -29,11 +29,6 @@ provider "azuread" {
 }
 
 terraform {
-  backend "azurerm" {
-}
-}
-
-terraform {
   required_version = ">= 0.12"
 }
 
