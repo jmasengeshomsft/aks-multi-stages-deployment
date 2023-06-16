@@ -8,7 +8,12 @@ locals {
    key_vault_name             = "${replace(var.spoke_name, "-", "")}kv001"
    workspace_name             = "${var.spoke_name}-law001"
    aks_cluster_name           = "${var.spoke_name}-aks001"
+  #  acr_name                   = var.acr_name
+  #  storage_account_name       = var.storage_account_name
+  #  key_vault_name             = var.key_vault_name
    spoke_resources_rg         = data.azurerm_resource_group.spoke_rg.name
+   aks_private_dns_zone       = join(".", slice(split(".", module.azurerm_aks_cluster.cluster.private_fqdn), 1, length(split(".", module.azurerm_aks_cluster.cluster.private_fqdn))))
+   aks_private_dns_zone_id    = "${data.azurerm_client_config.current.subscription_id}/resourceGroups/${module.azurerm_aks_cluster.cluster.node_resource_group}/providers/Microsoft.Network/privateDnsZones/${local.aks_private_dns_zone}" 
 }
 
 data "azurerm_resource_group" "spoke_rg" {
@@ -25,6 +30,12 @@ data "azurerm_virtual_network" "hub_vnet" {
   resource_group_name = var.hub_resource_group_name
 }
 
+# data "azurerm_virtual_network" "sre_vnet" {
+#   name                = local.sre_vnet
+#   resource_group_name = local.sre_rg 
+# }
+
+
 data "azurerm_subnet" "aks_subnet" {
   name                 = var.aks_subnet_name
   virtual_network_name = var.spoke_vnet_name
@@ -36,6 +47,11 @@ data "azurerm_subnet" "private_link_subnet" {
   virtual_network_name = var.spoke_vnet_name
   resource_group_name  = var.spoke_resource_group_name
 }
+
+# data "azurerm_private_dns_zone" "aks_zone" {
+#   name                = var.aks_dns_zone_name
+#   resource_group_name = local.networking_rg
+# }
 
 data "azurerm_container_registry" "acr" {
   name                = local.acr_name
@@ -52,6 +68,20 @@ data "azurerm_log_analytics_workspace" "logs" {
   name                = local.workspace_name
   resource_group_name = var.spoke_resource_group_name
 }
+
+
+# resource "azurerm_user_assigned_identity" "aks_user_identity" {
+#   name                = "${var.app_name_prefix}-${var.aks_cluster_name}-user-identity" #"aks-hub-zone-identity"
+#   resource_group_name = module.cluster_resource_group.rg.name
+#   location            = var.default_location
+# }
+
+# resource "azurerm_role_assignment" "aks_dns_zone_assign" {
+#   scope                = data.azurerm_private_dns_zone.aks_zone.id
+#   role_definition_name = "Private DNS Zone Contributor"
+#   principal_id         = azurerm_user_assigned_identity.aks_user_identity.principal_id
+# }
+
 
 # Deploy OPA policies
 # resource "azurerm_subscription_template_deployment" "azure_policy" {
@@ -83,33 +113,34 @@ data "azurerm_log_analytics_workspace" "logs" {
 
 module "azurerm_aks_cluster" {
   depends_on = [
-    #  azurerm_resource_group_policy_assignment.aks_policy_assignment
+    # azurerm_resource_group_policy_assignment.aks_policy_assignment
     # azurerm_firewall_network_rule_collection.aks_network_rule,
     # azurerm_subnet_network_security_group_association.aks_nsg_association,
-    # azurerm_subnet_route_table_association.aks_udr_association
+    # azurerm_subnet_route_table_association.aks_association
   ]
-  source                                 = "../modules/aks-cluster/"
+  source                                 = "../modules/private-aks/"
   resource_group_name                    = data.azurerm_resource_group.spoke_rg.name
   location                               = var.location
   virtual_network_name                   = data.azurerm_virtual_network.spoke_vnet.name 
   vnet_resource_group_name               = var.spoke_resource_group_name
   aks_subnet_id                          = data.azurerm_subnet.aks_subnet.id
+  workload_linux_subnet_id               = data.azurerm_subnet.private_link_subnet.id
   default_pool_max_pods                  = var.default_pool_max_pods
   tenant_id                              = var.aad_tenant_id
   azure_aad_admin_group_id               = var.azure_aad_admin_group_id
   linux_admin_user                       = var.linux_admin_user 
   aks_cluster_name                       = local.aks_cluster_name
-  kubernetes_version                     = "1.25.6"     #var.kubernetes_version 
+  kubernetes_version                     = var.kubernetes_version 
   default_node_count                     = var.default_node_count 
   azurerm_log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.logs.id
   default_vm_size                        = var.default_vm_size
-  node_pool_type                         = var.node_pool_type 
   network_policy                         = var.network_policy
   network_plugin                         = var.network_plugin 
   network_plugin_mode                    = var.network_plugin_mode 
   ebpf_data_plane                        = var.ebpf_data_plane   
+  node_pool_type                         = var.node_pool_type
+  docker_bridge_cidr                     = var.docker_bridge_cidr 
   pod_cidr                               = var.pod_cidr 
-  # docker_bridge_cidr                     = var.docker_bridge_cidr 
   service_cidr                           = var.service_cidr 
   dns_service_ip                         = var.dns_service_ip
   outbound_type                          = "userDefinedRouting"
@@ -118,6 +149,20 @@ module "azurerm_aks_cluster" {
   tags                                   = var.tags
 }
 
+# resource "azurerm_private_dns_zone_virtual_network_link" "aks_sre_vnet" {
+#   name                  = "hub_vnet_link"
+#   resource_group_name   = data.azurerm_resource_group.spoke_rg.name
+#   private_dns_zone_name = local.aks_private_dns_zone
+#   virtual_network_id    = data.azurerm_virtual_network.hub_vnet.id 
+# }
+
+#add windows nodepool
+# module "windows_node_pool" {
+#   source                      = "./modules/agent-pool/"
+#   kubernetes_version = var.kubernetes_version
+#   cluster_id                  = module.azurerm_aks_cluster.cluster.id
+#   node_pool_name              = "npwin"
+# }
 
 resource "azurerm_role_assignment" "AcrPull" {
   principal_id                     = module.azurerm_aks_cluster.cluster.kubelet_identity[0].object_id
@@ -131,6 +176,11 @@ data "azurerm_key_vault" "key_vault" {
   name                = local.key_vault_name
   resource_group_name = var.spoke_resource_group_name
 }
+
+# data "azurerm_key_vault" "tls_key_vault" {
+#   name                = var.tls_key_vault_name
+#   resource_group_name = var.tls_key_vault_resource_group
+# }
 
 resource "azurerm_role_assignment" "aks_volume_read" {
   principal_id                     = module.azurerm_aks_cluster.cluster.identity[0].principal_id

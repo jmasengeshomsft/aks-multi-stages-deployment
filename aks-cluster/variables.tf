@@ -63,13 +63,13 @@ variable "linux_admin_user" {
 
 variable "aks_cluster_name" {
     description = "The name of the cluster"
-    default     = "aks-play-ground-aks001"
+    default     = "aks-terraform-001"
 }
 
-variable "workload_vm_size" {
-    description = "Workload vm sizes"
-    default     =  "Standard_D2_v2"
-}
+# variable "workload_vm_size" {
+#     description = "Workload vm sizes"
+#     default     =  "Standard_D2_v2"
+# }
 
 # variable "default_nodepool_subnet" {
 #     description = "Default subnet"
@@ -80,20 +80,20 @@ variable "default_pool_max_pods" {
     default     = 50
 }
 
-variable "workload_pool_max_pods" {
-    description = "The number of pods on the workload node pool"
-    default     = 50
-}
+# variable "workload_pool_max_pods" {
+#     description = "The number of pods on the workload node pool"
+#     default     = 50
+# }
 
 variable "default_node_count" {
     description = "Pool node count"
-    default     = 2
+    default     = 1
 }
 
-variable "workload_node_count" {
-    description = "Pool node count"
-    default     = 2
-}
+# variable "workload_node_count" {
+#     description = "Pool node count"
+#     default     = 2
+# }
 
 variable "default_vm_size" {
     description = "VM Size"
@@ -125,10 +125,10 @@ variable "network_policy" {
     default     = "calico"
 }
 
-# variable "docker_bridge_cidr" {
-#     description = "Docker Address Space"
-#     default     = "10.245.0.1/16"
-# }
+variable "docker_bridge_cidr" {
+    description = "Docker Address Space"
+    default     = "10.245.0.1/16"
+}
 # variable "workspace_name" {
 #     description = "The name of the log analytics workspace"
 # }

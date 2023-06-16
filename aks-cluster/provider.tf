@@ -16,15 +16,10 @@ terraform {
 }
 
 
-# terraform {
-#   backend "azurerm" {
-#   }
-# }
-
 provider "azapi" {
   
 }
 
 terraform {
     required_version = ">= 0.12"
-    }
+}
