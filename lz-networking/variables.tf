@@ -53,6 +53,10 @@ variable "fw_sku_name" {
 
 variable "fw_sku_tier" {
   default = "Basic"
+  validation {
+    condition = contains(["Basic", "Standard", "Premium"], var.worker_pool_node_priority)
+    error_message = "Accepted values are 'Basic', 'Standard', 'Premium'"
+  }
 }
 
 variable "kv_sku_name" {

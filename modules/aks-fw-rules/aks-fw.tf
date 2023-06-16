@@ -1,21 +1,10 @@
 # Firewall Policy
-
-variable "resource_group_name" {}
-
-variable "location" {}
-
-variable "aks_spoke_cidr" {}
-
-variable jumpbox_subnet_address_space {}
-
 resource "azurerm_firewall_policy" "aks" {
   name                = "AKSpolicy"
   resource_group_name = var.resource_group_name
   location            = var.location
-  sku                 = "Basic"
-  # dns {
-  #   proxy_enabled     = true
-  # }
+  sku                 = var.fw_sku_tier
+  contains(["Standard","Premium"], var.fw_sku_tier) ? dns { proxy_enabled = true } : ""
 }
 
 output "fw_policy_id" {
@@ -23,8 +12,6 @@ output "fw_policy_id" {
 }
 
 # Rules Collection Group
-
-
 resource "azurerm_firewall_policy_rule_collection_group" "AKS" {
   name               = "aks-rcg"
   firewall_policy_id = azurerm_firewall_policy.aks.id

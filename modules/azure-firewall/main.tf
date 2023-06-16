@@ -1,10 +1,3 @@
-# resource "azurerm_subnet" "firewall_subnet" {
-#   name                 = "AzureFirewallSubnet"
-#   resource_group_name  = var.resource_group_name
-#   virtual_network_name = var.virtual_network_name
-#   address_prefixes     = var.firewall_subnet_address_space
-# }
-
 resource "azurerm_public_ip" "firewall_ip" {
   name                = "azure_firewall_ip"
   location            = var.location
