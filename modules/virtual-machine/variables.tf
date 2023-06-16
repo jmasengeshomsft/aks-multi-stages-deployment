@@ -18,6 +18,11 @@ variable "vm_name" {
     description = "vm_name"
 }
 
+variable "vm_sku" {
+    default     = "Standard_B2ms"
+    description = "vm_name"
+}
+
 variable "admin_password" {
   
 }

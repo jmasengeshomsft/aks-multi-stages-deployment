@@ -1,4 +1,6 @@
-
+data "template_file" "cloud_init" {
+  template = file("${path.module}/cloud-init/cloud-config.sh")
+}
 
 resource "azurerm_network_interface" "jump_box" {
   name                = "${var.vm_name}-nic" 
@@ -16,7 +18,7 @@ resource "azurerm_linux_virtual_machine" "jumpbox" {
   name                            = var.vm_name
   resource_group_name             = var.resource_group_name
   location                        = var.location
-  size                            = "Standard_B2ms"
+  size                            = var.vm_sku 
   admin_username                  = "azureuser"
   admin_password                  = var.admin_password
   disable_password_authentication = false
@@ -40,4 +42,6 @@ resource "azurerm_linux_virtual_machine" "jumpbox" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+
+  custom_data = base64encode(data.template_file.cloud_init.rendered) 
 }

@@ -12,7 +12,7 @@ resource "azurerm_virtual_network" "spoke" {
   resource_group_name = module.core_resources_resource_group.rg.name
   location            = var.location
   address_space       = [var.spoke_address_space]
-  dns_servers         = [var.firewall_private_ip_address]
+  #dns_servers         = [var.firewall_private_ip_address]
   tags                = var.tags
 
 }
