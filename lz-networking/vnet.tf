@@ -21,8 +21,15 @@ resource "azurerm_subnet" "firewall" {
   resource_group_name                            = azurerm_resource_group.rg.name
   virtual_network_name                           = azurerm_virtual_network.hub.name
   address_prefixes                               = [var.firewall_subnet_address_space]
-  private_endpoint_network_policies_enabled = false
+  private_endpoint_network_policies_enabled      = false
+}
 
+resource "azurerm_subnet" "mgmt_firewall" {
+  name                                           = "AzureFirewallManagementSubnet"
+  resource_group_name                            = azurerm_resource_group.rg.name
+  virtual_network_name                           = azurerm_virtual_network.hub.name
+  address_prefixes                               = [var.mgmt_firewall_subnet_address_space]
+  private_endpoint_network_policies_enabled      = false
 }
 
 # Gateway Subnet 
@@ -32,7 +39,7 @@ resource "azurerm_subnet" "gateway" {
   resource_group_name                            = azurerm_resource_group.rg.name
   virtual_network_name                           = azurerm_virtual_network.hub.name
   address_prefixes                               = [var.applicationgw_subnet_address_space]
-  private_endpoint_network_policies_enabled = false
+  private_endpoint_network_policies_enabled      = false
 
 }
 
@@ -41,7 +48,7 @@ resource "azurerm_subnet" "jumbpox" {
   resource_group_name                            = azurerm_resource_group.rg.name
   virtual_network_name                           = azurerm_virtual_network.hub.name
   address_prefixes                               = [var.jumpbox_subnet_address_space]
-  private_endpoint_network_policies_enabled = false
+  private_endpoint_network_policies_enabled      = false
   
 }
 

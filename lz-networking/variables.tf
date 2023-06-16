@@ -27,6 +27,10 @@ variable "firewall_subnet_address_space" {
     
 }
 
+variable "mgmt_firewall_subnet_address_space" {
+    
+}
+
 variable "bastion_subnet_address_space" {
   
 }
@@ -43,21 +47,22 @@ variable "aks_spoke_cidr" {
   
 }
 
-variable "sku_name" {
+variable "fw_sku_name" {
   default = "AZFW_VNet"
 }
 
-variable "sku_tier" {
-  default = "Standard"
+variable "fw_sku_tier" {
+  default = "Basic"
 }
 
 variable "kv_sku_name" {
     description = "KV Sku"
-    default = "premium"
+    default = "Standard"
 }
 
 variable "admin_password" {
   type = string
+  default = ""
   
 }
 

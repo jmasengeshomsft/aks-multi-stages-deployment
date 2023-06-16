@@ -29,12 +29,12 @@ provider "azuread" {
 }
 
 # terraform {
-#   backend "azurerm" {
-#     # resource_group_name  = "terraform-state-rg"
-#     # storage_account_name = "mfgtfstatestrdev"
-#     # container_name       = "elz"
-#     # key                  = "elz.tfstate"
-#   }
+#   # backend "azurerm" {
+#   #   # resource_group_name  = "terraform-state-rg"
+#   #   # storage_account_name = "mfgtfstatestrdev"
+#   #   # container_name       = "elz"
+#   #   # key                  = "elz.tfstate"
+#   # }
 # }
 
 terraform {
