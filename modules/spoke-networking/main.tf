@@ -12,8 +12,8 @@ resource "azurerm_virtual_network" "spoke" {
   resource_group_name = module.core_resources_resource_group.rg.name
   location            = var.location
   address_space       = [var.spoke_address_space]
-  #dns_servers         = [var.firewall_private_ip_address]
   tags                = var.tags
+  dns_servers         = var.enable_dns_from_firewall == true ? [var.firewall_private_ip_address] : []
 
 }
 
@@ -23,22 +23,41 @@ resource "azurerm_virtual_network" "spoke" {
 # Firewall Subnet
 # (Additional subnet for Azure Firewall, without NSG as per Firewall requirements)
 resource "azurerm_subnet" "aks" {
-  name                                           = "sn-aks"
-  resource_group_name                            = module.core_resources_resource_group.rg.name
-  virtual_network_name                           = azurerm_virtual_network.spoke.name
-  address_prefixes                               = [var.aks_subnet_address_space]
-  private_endpoint_network_policies_enabled = false
+  name                                      = "sn-aks"
+  resource_group_name                       = module.core_resources_resource_group.rg.name
+  virtual_network_name                      = azurerm_virtual_network.spoke.name
+  address_prefixes                          = [var.node_subnet_address_space]
+  private_endpoint_network_policies_enabled = true
+
+}
+
+# Pod Subnet
+resource "azurerm_subnet" "sn-pods" {
+  name                                      = "sn-pods"
+  resource_group_name                       = module.core_resources_resource_group.rg.name
+  virtual_network_name                      = azurerm_virtual_network.spoke.name
+  address_prefixes                          = [var.pod_subnet_address_space]
+  private_endpoint_network_policies_enabled = true 
+  delegation {
+    name = "delegation"
+
+    service_delegation {
+      name    = "Microsoft.ContainerService/managedClusters"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
+    }
+  }
+
 
 }
 
 # Gateway Subnet 
 # (Additional subnet for Gateway, without NSG as per requirements)
 resource "azurerm_subnet" "plendpoints" {
-  name                                           = "sn-plendpoints"
-  resource_group_name                            = module.core_resources_resource_group.rg.name
-  virtual_network_name                           = azurerm_virtual_network.spoke.name
-  address_prefixes                               = [var.plendpoints_subnet_address_space]
-  private_endpoint_network_policies_enabled = false
+  name                                      = "sn-plendpoints"
+  resource_group_name                       = module.core_resources_resource_group.rg.name
+  virtual_network_name                      = azurerm_virtual_network.spoke.name
+  address_prefixes                          = [var.plendpoints_subnet_address_space]
+  private_endpoint_network_policies_enabled = true 
 
 }
 

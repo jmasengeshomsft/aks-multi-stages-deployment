@@ -8,7 +8,7 @@ variable "location" {
   type        = string
 }
 
-variable "aks_spoke_cidr" {
+variable "aks_spoke_address_space" {
   description = "Cidr of AKS Spoke Subnet"
   type        = string
 }

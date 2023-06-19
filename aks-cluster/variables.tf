@@ -47,6 +47,10 @@ variable "aks_subnet_name" {
     description = "The name of the subnet to attach to the udr"
 }
 
+variable "pod_subnet_name" {
+    description = "The name of the subnet to attach to the udr"
+}
+
 variable "privatelink_subnet_name" {
     description = "The name of the subnet to attach to the nodepool- linux"
 }
@@ -112,7 +116,8 @@ variable "network_plugin" {
 
 variable "network_plugin_mode" {
     description = "The network mode: Overlay"
-    default     = "Overlay"
+    #default     = "Overlay"
+    default     = null
 }
 
 variable "ebpf_data_plane" {

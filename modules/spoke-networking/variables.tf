@@ -15,6 +15,11 @@ variable "tags" {
   }
 }
 
+variable "enable_dns_from_firewall" {
+  type    = bool
+  default = false
+}
+
 variable "hub_resource_group_name" {
   type = string
 }
@@ -31,7 +36,11 @@ variable "firewall_private_ip_address" {
   type = string
 }
 
-variable "aks_subnet_address_space" {
+variable "node_subnet_address_space" {
+  type = string
+}
+
+variable "pod_subnet_address_space" {
   type = string
 }
 

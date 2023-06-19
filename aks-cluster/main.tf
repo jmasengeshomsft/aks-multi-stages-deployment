@@ -35,6 +35,11 @@ data "azurerm_virtual_network" "hub_vnet" {
 #   resource_group_name = local.sre_rg 
 # }
 
+data "azurerm_subnet" "pod_subnet" {
+  name                 = var.pod_subnet_name
+  virtual_network_name = var.spoke_vnet_name
+  resource_group_name  = var.spoke_resource_group_name
+}
 
 data "azurerm_subnet" "aks_subnet" {
   name                 = var.aks_subnet_name
@@ -63,7 +68,6 @@ data "azurerm_storage_account" "aks_file_share" {
   resource_group_name = var.spoke_resource_group_name
 }
 
-//To be created
 data "azurerm_log_analytics_workspace" "logs" {
   name                = local.workspace_name
   resource_group_name = var.spoke_resource_group_name
@@ -118,13 +122,13 @@ module "azurerm_aks_cluster" {
     # azurerm_subnet_network_security_group_association.aks_nsg_association,
     # azurerm_subnet_route_table_association.aks_association
   ]
-  source                                 = "../modules/private-aks/"
+  source                                 = "../modules/aks-cluster/"
   resource_group_name                    = data.azurerm_resource_group.spoke_rg.name
   location                               = var.location
   virtual_network_name                   = data.azurerm_virtual_network.spoke_vnet.name 
   vnet_resource_group_name               = var.spoke_resource_group_name
   aks_subnet_id                          = data.azurerm_subnet.aks_subnet.id
-  workload_linux_subnet_id               = data.azurerm_subnet.private_link_subnet.id
+  pod_subnet_id                          = data.azurerm_subnet.pod_subnet.id
   default_pool_max_pods                  = var.default_pool_max_pods
   tenant_id                              = var.aad_tenant_id
   azure_aad_admin_group_id               = var.azure_aad_admin_group_id
@@ -139,7 +143,6 @@ module "azurerm_aks_cluster" {
   network_plugin_mode                    = var.network_plugin_mode 
   ebpf_data_plane                        = var.ebpf_data_plane   
   node_pool_type                         = var.node_pool_type
-  docker_bridge_cidr                     = var.docker_bridge_cidr 
   pod_cidr                               = var.pod_cidr 
   service_cidr                           = var.service_cidr 
   dns_service_ip                         = var.dns_service_ip

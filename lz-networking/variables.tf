@@ -3,6 +3,12 @@
 # VARIABLES #
 #############
 
+# Wether or not to use the firewall as the DNS resolver.  DOES NOT work with BASIC firewall
+variable enable_dns_from_firewall {
+  default = false
+  type = bool
+}
+
 variable "location" {
     
 }
@@ -43,7 +49,7 @@ variable "jumpbox_subnet_address_space" {
   
 }
 
-variable "aks_spoke_cidr" {
+variable "aks_spoke_address_space" {
   
 }
 
@@ -51,10 +57,18 @@ variable "fw_sku_name" {
   default = "AZFW_VNet"
 }
 
-variable "fw_sku_tier" {
-  default = "Basic"
+variable "fw_sku" {
+  default = "Standard"
   validation {
-    condition = contains(["Basic", "Standard", "Premium"], var.worker_pool_node_priority)
+    condition = contains(["Basic", "Standard", "Premium"], var.fw_sku)
+    error_message = "Accepted values are 'Basic', 'Standard', 'Premium'"
+  }
+}
+
+variable "fw_policy_sku" {
+  default = "Standard"
+  validation {
+    condition = contains(["Basic", "Standard", "Premium"], var.fw_policy_sku)
     error_message = "Accepted values are 'Basic', 'Standard', 'Premium'"
   }
 }
@@ -70,23 +84,14 @@ variable "admin_password" {
   
 }
 
-variable "aks_spoke1_address_space" {
+variable "node_subnet_address_space" {
   
 }
 
-variable "aks_spoke2_address_space" {
-  
-}
-variable "aks_subnet_address_space" {
-  
-}
-variable "aks_subnet2_address_space" {
+variable "pod_subnet_address_space" {
   
 }
 
 variable "plendpoints_subnet_address_space" {
-  
-}
-variable "plendpoints_subnet2_address_space" {
   
 }

@@ -50,7 +50,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "Jumpbox" {
       name                  = "ssh"
       protocols             = ["TCP"]
       source_addresses      = [var.jumpbox_subnet_address_space]
-      destination_addresses = [var.aks_spoke_cidr]
+      destination_addresses = [var.aks_spoke_address_space]
       destination_ports     = ["22"]
     }
     rule {

@@ -27,6 +27,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     tags                    = var.tags
     max_pods                = var.default_pool_max_pods
     vnet_subnet_id          = var.aks_subnet_id
+    pod_subnet_id           = var.pod_subnet_id
     enable_host_encryption  = false
     enable_auto_scaling     = true
     min_count               = var.default_node_count
@@ -84,118 +85,116 @@ resource "azurerm_kubernetes_cluster" "aks" {
   tags = var.tags
 }
 
-resource "azurerm_monitor_diagnostic_setting" "aks-logging" {
-  name                                  = azurerm_kubernetes_cluster.aks.name
-  target_resource_id                    = azurerm_kubernetes_cluster.aks.id
-  log_analytics_workspace_id            = var.azurerm_log_analytics_workspace_id
+# resource "azurerm_monitor_diagnostic_setting" "aks-logging" {
+#   name                                  = azurerm_kubernetes_cluster.aks.name
+#   target_resource_id                    = azurerm_kubernetes_cluster.aks.id
+#   log_analytics_workspace_id            = var.azurerm_log_analytics_workspace_id
 
-  #  log {
-  #   category = "csi-azuredisk-controller"
-  #   enabled  = true
+#   #  log {
+#   #   category = "csi-azuredisk-controller"
+#   #   enabled  = true
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-  #  log {
-  #   category = "csi-azurefile-controller"
-  #   enabled  = true
+#   #  log {
+#   #   category = "csi-azurefile-controller"
+#   #   enabled  = true
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-  #  log {
-  #   category = "csi-snapshot-controller"
-  #   enabled  = true
+#   #  log {
+#   #   category = "csi-snapshot-controller"
+#   #   enabled  = true
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-  #  log {
-  #   category = "cloud-controller-manager"
-  #   enabled  = true
+#   #  log {
+#   #   category = "cloud-controller-manager"
+#   #   enabled  = true
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-   log {
-    category = "kube-audit-admin"
-    enabled  = true
+#    enabled_log {
+#     category = "kube-audit-admin"
 
-    retention_policy {
-      enabled = false
-    }
-  }
+#     retention_policy {
+#       enabled = false
+#     }
+#   }
   
   
-  # log {
-  #   category = "kube-scheduler"
-  #   enabled  = true
+#   # log {
+#   #   category = "kube-scheduler"
+#   #   enabled  = true
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-  # log {
-  #   category = "kube-controller-manager"
-  #   enabled  = true
+#   # log {
+#   #   category = "kube-controller-manager"
+#   #   enabled  = true
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-  # log {
-  #   category = "cluster-autoscaler"
-  #   enabled  = true
+#   # log {
+#   #   category = "cluster-autoscaler"
+#   #   enabled  = true
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-  log {
-    category = "kube-audit"
-    enabled  = true
+#   enabled_log {
+#     category = "kube-audit"
 
-    retention_policy {
-      enabled = false
-    }
-  }
+#     retention_policy {
+#       enabled = false
+#     }
+#   }
 
-    log {
-    category = "guard"
-    enabled  = true
+#   # log {
+#   #   category = "guard"
+#   #   enabled  = true
 
-    retention_policy {
-      enabled = false
-    }
-  }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-  # log {
-  #   category = "kube-apiserver"
-  #   enabled  = true
+#   # log {
+#   #   category = "kube-apiserver"
+#   #   enabled  = true
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
 
-  # metric {
-  #   category = "AllMetrics"
+#   # metric {
+#   #   category = "AllMetrics"
 
-  #   retention_policy {
-  #     enabled = false
-  #   }
-  # }
-}
+#   #   retention_policy {
+#   #     enabled = false
+#   #   }
+#   # }
+# }
 
 

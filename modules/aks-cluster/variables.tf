@@ -6,7 +6,6 @@ variable "location" {
     description = "cluster location"
 }
 
-
 variable "virtual_network_name" {
     description = "The name of the vnet"
 }
@@ -16,6 +15,10 @@ variable "vnet_resource_group_name" {
 }
 
 variable "aks_subnet_id" {
+    description = "The id of the subnet to attach to the udr"
+}
+
+variable "pod_subnet_id" {
     description = "The id of the subnet to attach to the udr"
 }
 
@@ -48,7 +51,6 @@ variable "default_node_count" {
 
 variable "azurerm_log_analytics_workspace_id" {
     description = "The id of the log analytics woskpace"
-
 }
 
 variable "default_pool_max_pods" {

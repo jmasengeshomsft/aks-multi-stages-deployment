@@ -7,7 +7,7 @@ resource "azurerm_firewall" "firewall" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   sku_name            = var.fw_sku_name
-  sku_tier            = var.fw_sku_tier
+  sku_tier            = var.fw_sku
   firewall_policy_id  = module.firewall_rules_aks.fw_policy_id
 
   ip_configuration {
@@ -42,8 +42,9 @@ resource "azurerm_public_ip" "mgmt_firewall" {
 module "firewall_rules_aks" {
   source = "../modules/aks-fw-rules"
 
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  aks_spoke_cidr      = var.aks_spoke_cidr
-  jumpbox_subnet_address_space = var.jumpbox_subnet_address_space
+  resource_group_name           = azurerm_resource_group.rg.name
+  location                      = azurerm_resource_group.rg.location
+  aks_spoke_address_space       = var.aks_spoke_address_space
+  jumpbox_subnet_address_space  = var.jumpbox_subnet_address_space
+  fw_policy_sku                 = var.fw_policy_sku
 }

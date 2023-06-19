@@ -3,8 +3,14 @@ resource "azurerm_firewall_policy" "aks" {
   name                = "AKSpolicy"
   resource_group_name = var.resource_group_name
   location            = var.location
-  sku                 = var.fw_sku_tier
-  contains(["Standard","Premium"], var.fw_sku_tier) ? dns { proxy_enabled = true } : ""
+  sku                 = var.fw_policy_sku
+  dynamic "dns" {
+    for_each = contains(["Standard","Premium"], var.fw_policy_sku) ? ["dns"] : []
+
+    content { 
+      proxy_enabled = true
+    }
+  }
 }
 
 output "fw_policy_id" {
@@ -31,7 +37,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "AKS" {
         type = "Http"
         port = 80 
       }
-      source_addresses      = [var.aks_spoke_cidr]
+      source_addresses      = [var.aks_spoke_address_space]
       destination_fqdn_tags = ["AzureKubnernetesService"]
     }
 
@@ -158,35 +164,35 @@ resource "azurerm_firewall_policy_rule_collection_group" "AKS" {
     rule {
       name                  = "https"
       protocols             = ["TCP"]
-      source_addresses      = [var.aks_spoke_cidr]
+      source_addresses      = [var.aks_spoke_address_space]
       destination_addresses = ["*"]
       destination_ports     = ["443"]
     }
     rule {
       name                  = "dns"
       protocols             = ["UDP"]
-      source_addresses      = [var.aks_spoke_cidr]
+      source_addresses      = [var.aks_spoke_address_space]
       destination_addresses = ["*"]
       destination_ports     = ["53"]
     }
     rule {
       name                  = "time"
       protocols             = ["UDP"]
-      source_addresses      = [var.aks_spoke_cidr]
+      source_addresses      = [var.aks_spoke_address_space]
       destination_addresses = ["*"]
       destination_ports     = ["123"]
     }
     rule {
       name                  = "tunnel_udp"
       protocols             = ["UDP"]
-      source_addresses      = [var.aks_spoke_cidr]
+      source_addresses      = [var.aks_spoke_address_space]
       destination_addresses = ["*"]
       destination_ports     = ["1194"]
     }
     rule {
       name                  = "tunnel_tcp"
       protocols             = ["TCP"]
-      source_addresses      = [var.aks_spoke_cidr]
+      source_addresses      = [var.aks_spoke_address_space]
       destination_addresses = ["*"]
       destination_ports     = ["9000"]
     }
