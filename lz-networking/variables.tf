@@ -4,10 +4,6 @@
 #############
 
 # Wether or not to use the firewall as the DNS resolver.  DOES NOT work with BASIC firewall
-variable enable_dns_from_firewall {
-  default = false
-  type = bool
-}
 
 variable "location" {
     
@@ -49,9 +45,6 @@ variable "jumpbox_subnet_address_space" {
   
 }
 
-variable "aks_spoke_address_space" {
-  
-}
 
 variable "fw_sku_name" {
   default = "AZFW_VNet"
@@ -84,14 +77,3 @@ variable "admin_password" {
   
 }
 
-variable "node_subnet_address_space" {
-  
-}
-
-variable "pod_subnet_address_space" {
-  
-}
-
-variable "plendpoints_subnet_address_space" {
-  
-}

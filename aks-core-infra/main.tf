@@ -1,25 +1,24 @@
-data "azurerm_subnet" "private_link_subnet" {
-  name                 = var.privatelink_subnet_name
-  virtual_network_name = var.spoke_vnet_name
-  resource_group_name  = var.spoke_resource_group_name
-}
-
-data "azurerm_resource_group" "spoke_rg" {
-  name = var.spoke_resource_group_name
-}
-
 data "azurerm_private_dns_zone" "acr" {
   name                = var.acr_dns_zone_name
   resource_group_name = var.hub_resource_group_name
+}
+
+data "azurerm_subnet" "private_link_subnet" {
+  name                 = var.privatelink_subnet_name
+  virtual_network_name = var.spoke_vnet_name
+  resource_group_name  = module.dev-spoke.spoke_resource_group_name
+  depends_on           = [module.dev-spoke]
 }
 
 locals {
     storage_account_name = "${replace(var.spoke_name, "-", "")}strg001"
     acr_name                        = "${replace(var.spoke_name, "-", "")}acr001"
     key_vault_name                  = "${replace(var.spoke_name, "-", "")}kv001"
-    law_name                        = "${var.spoke_name}-law001"
-    location                        = data.azurerm_resource_group.spoke_rg.location
-    spoke_resource_group_name       = data.azurerm_resource_group.spoke_rg.name
+    law_name                        = "${replace(var.spoke_name, "-", "")}law001"
+    ai_name                         = "${replace(var.spoke_name, "-", "")}ai001"
+    location                        = var.location 
+    spoke_resource_group_name       = var.spoke_resource_group_name 
+    #private_link_subnet_id          = data.azurerm_subnet.private_link_subnet.id
     private_link_subnet_id          = data.azurerm_subnet.private_link_subnet.id
 }
 
@@ -96,9 +95,10 @@ module "storage_account_dns_a_record_blob" {
 
 module "application_insights" {
   source                      = "../modules/application-insights/"
-  app_insights_name           = "${var.spoke_name}-ai001"
+  app_insights_name           = local.ai_name 
   location                    = local.location
   resource_group_name         = local.spoke_resource_group_name
   law_workspace_id            = azurerm_log_analytics_workspace.spoke_law.id
   tags                        = var.tags
+  depends_on                  = [module.azurerm_log_analytics_workspace.spoke_law]
 }

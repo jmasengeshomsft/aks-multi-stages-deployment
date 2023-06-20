@@ -6,7 +6,7 @@ locals {
    storage_account_name       = "${replace(var.spoke_name, "-", "")}strg001"
    acr_name                   = "${replace(var.spoke_name, "-", "")}acr001"
    key_vault_name             = "${replace(var.spoke_name, "-", "")}kv001"
-   workspace_name             = "${var.spoke_name}-law001"
+   workspace_name             = "${replace(var.spoke_name, "-", "")}law001"
    aks_cluster_name           = "${var.spoke_name}-aks001"
   #  acr_name                   = var.acr_name
   #  storage_account_name       = var.storage_account_name

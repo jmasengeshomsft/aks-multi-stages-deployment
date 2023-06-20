@@ -33,23 +33,31 @@ locals {
   ]
 }
 
+data "azurerm_firewall" "hub-firewall" {
+  name                = "vnet-hub-${var.hub_prefix}-firewall"
+  resource_group_name = var.hub_resource_group_name 
+}
 
+data "azurerm_virtual_network" "hub-vnet" {
+  name                = var.hub_vnet_name 
+  resource_group_name = var.hub_resource_group_name
+}
 
 //dev spoke 1
- module "mfg-pg-dev-spoke" {
+ module "dev-spoke" {
   source  = "../modules/spoke-networking"
-  hub_resource_group_name           = azurerm_resource_group.rg.name
+  hub_resource_group_name           = var.hub_resource_group_name
   location                          = var.location
   tags                              = var.tags
-  spoke_name                        = "nvidia-dev"
+  spoke_name                        = "${var.hub_prefix}-${var.environment}"
   spoke_address_space               = var.aks_spoke_address_space
-  firewall_private_ip_address       = azurerm_firewall.firewall.ip_configuration[0].private_ip_address
+  firewall_private_ip_address       = data.azurerm_firewall.hub-firewall.ip_configuration[0].private_ip_address
   enable_dns_from_firewall          = var.enable_dns_from_firewall
   node_subnet_address_space         = var.node_subnet_address_space 
   pod_subnet_address_space          = var.pod_subnet_address_space
   plendpoints_subnet_address_space  = var.plendpoints_subnet_address_space
-  hub_vnet_name                     = "vnet-hub-${var.hub_prefix}"
-  hub_vnet_id                       = azurerm_virtual_network.hub.id
+  hub_vnet_name                     = var.hub_vnet_name 
+  hub_vnet_id                       = data.azurerm_virtual_network.hub-vnet.id
   private_dns_zones                 = local.private_dns_zones
   # hub_prefix = var.hub_prefix
 }

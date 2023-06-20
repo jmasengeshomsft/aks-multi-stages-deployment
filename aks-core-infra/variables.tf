@@ -2,19 +2,48 @@ variable "environment" {
   type = string
 }
 
-# variable "spoke_name" {
-#   type = string
-# }
+variable "location" {
+  type = string
+}
 
-# variable "spoke_resource_group_name" {
-#     description = "The name of the resource group for acr and key vault"
-#     type        = string
-# }
+variable "hub_prefix" {
+  type = string
+}
 
-# variable "spoke_vnet_name" {
-#   description = "The name of the Vnet"
-#   type        = string
-# }  
+variable "aks_spoke_address_space" {
+  
+}
+
+variable "node_subnet_address_space" {
+  
+}
+
+variable "pod_subnet_address_space" {
+  
+}
+
+variable "plendpoints_subnet_address_space" {
+  
+}
+
+variable "spoke_name" {
+  type = string
+}
+
+variable "spoke_resource_group_name" {
+    description = "The name of the resource group for acr and key vault"
+    type        = string
+}
+
+variable "spoke_vnet_name" {
+  description = "The name of the Vnet"
+  type        = string
+}  
+
+variable enable_dns_from_firewall {
+  default = false
+  type = bool
+}
 
 variable "hub_resource_group_name" {
     description = "The name of the resource group for networking"
