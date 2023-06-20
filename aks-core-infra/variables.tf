@@ -2,19 +2,19 @@ variable "environment" {
   type = string
 }
 
-variable "spoke_name" {
-  type = string
-}
+# variable "spoke_name" {
+#   type = string
+# }
 
-variable "spoke_resource_group_name" {
-    description = "The name of the resource group for acr and key vault"
-    type        = string
-}
+# variable "spoke_resource_group_name" {
+#     description = "The name of the resource group for acr and key vault"
+#     type        = string
+# }
 
-variable "spoke_vnet_name" {
-  description = "The name of the Vnet"
-  type        = string
-}  
+# variable "spoke_vnet_name" {
+#   description = "The name of the Vnet"
+#   type        = string
+# }  
 
 variable "hub_resource_group_name" {
     description = "The name of the resource group for networking"

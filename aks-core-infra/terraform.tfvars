@@ -1,7 +1,4 @@
 environment = "dev"
-spoke_name = "nvidia-dev"
 hub_vnet_name = "vnet-hub-nvidia"
 hub_resource_group_name = "nvidia-hub-rg"
-spoke_vnet_name = "vnet-spoke-nvidia-dev-001"
 privatelink_subnet_name = "sn-plendpoints"
-spoke_resource_group_name = "nvidia-dev-rg"
