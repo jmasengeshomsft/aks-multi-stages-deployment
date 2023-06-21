@@ -30,6 +30,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "modpool" {
   min_count                       = var.worker_pool_min_count
   max_count                       = var.worker_pool_max_count
   priority                        = var.worker_pool_node_priority
+  zones                           = ["1","2","3"]
   enable_node_public_ip           = var.enable_node_public_ip
   pod_subnet_id                   = var.pod_subnet_id
   vnet_subnet_id                  = var.vnet_subnet_id
