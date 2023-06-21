@@ -1,0 +1,37 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  name: contoso-dev-aks1-worker1
+  namespace: flux-system
+spec:
+  interval: 2m
+  destroyResourcesOnDeletion: true
+  approvePlan: auto
+  path: ./aks-worker
+  sourceRef:
+    kind: GitRepository
+    name: aks-playground
+    namespace: flux-system
+  runnerPodTemplate:
+    spec:
+      envFrom:
+        - secretRef:
+            name: azure-tf-credentials
+  enableInventory: true
+  vars:
+    - name: aks_cluster_resource_group
+      value: jm-contoso-dev-rg
+    - name: aks_cluster_name
+      value: contoso-dev-aks1
+    # - name: pod_subnet_name
+    #   value: contoso-dev-aks1-pod-subnet
+    # - name: aks_subnet_name
+    #   value: contoso-dev-aks1-node-subnet
+    # - name: location
+    #   value: eastus
+    # - name: hub_resource_group_name
+    #   value: "contoso-hub-rg"
+    # - name: privatelink_subnet_name
+    #   value: "sn-plendpoints"
+    # - name: network_plugin_mode
+    #   value: null
