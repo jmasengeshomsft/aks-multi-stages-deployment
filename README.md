@@ -8,6 +8,9 @@ This is Terraform for creating an AKS Landing Zone in Azure.  There are 4 key Te
 4.  **AKS Cluster (aks-cluster)**.  This script provisions an AKS cluster with Cilium dataplane using Azure CNI networking
 5.  **AKS Worker Nodes (aks-workers)**.  This script simply adds worker nodes to an existing AKS Cluster
 
+
+### High Level Architecture  (Hub/Spoke)
+
    ![image](https://github.com/jmasengeshomsft/aks-multi-stages-deployment/assets/86074746/f6a61e94-5928-4271-bc59-3d0aa27fc9a4)
 
 ## Hub-Spoke Networking Deployment (lz-Networking)
