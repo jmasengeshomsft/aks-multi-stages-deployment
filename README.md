@@ -1,12 +1,15 @@
 # Azure Infrastructure #
 
-This is Terraform for creating an AKS Landing Zone in Azure.  There are 4 key Terraform scripts in this repo to break the construction up logically into different areas that different groups might control.
+This is Terraform for creating an AKS Landing Zone in Azure.  There are 5 key Terraform scripts in this repo to break the construction up logically into different areas that different groups might control.
 
 1.  **Networking (lz-networking)**.  This will create a Hub Resource Group and a VNet as well as an Azure Firewall with Policies for AKS.
 2.  **AKS Resource group and AKS components (aks-core-infra)**.  This script will create a Resource Group for AKS as well as a separate spoke VNet that is peered with the Hub Net.  Optionally you can use this script to create necessary components like managed identities, KeyVault, ACR, etc.
 3.  **AKS Networking**. This module creates two subnets (nodes and pods) for the clusters. The nodes subnet is associated to the route table in the spoke. Two NSGs for the subnets are created with detault routes.
 4.  **AKS Cluster (aks-cluster)**.  This script provisions an AKS cluster with Cilium dataplane using Azure CNI networking
 5.  **AKS Worker Nodes (aks-workers)**.  This script simply adds worker nodes to an existing AKS Cluster
+
+
+### High Level Architecture  (Hub/Spoke)
 
    ![image](https://github.com/jmasengeshomsft/aks-multi-stages-deployment/assets/86074746/f6a61e94-5928-4271-bc59-3d0aa27fc9a4)
 
@@ -21,6 +24,14 @@ This is Terraform for creating an AKS Landing Zone in Azure.  There are 4 key Te
 ## Cluster Networking (cluster-networking)
 
 <img width="1508" alt="image" src="https://github.com/jmasengeshomsft/aks-multi-stages-deployment/assets/86074746/518118e0-dd66-4b75-a171-41c053583643">
+
+## AKS Cluster
+
+![image](https://github.com/jmasengeshomsft/aks-multi-stages-deployment/assets/86074746/a0c21703-caf3-4ed6-804c-c7d91eaf49d4)
+
+## AKS Node Pool
+
+![image](https://github.com/jmasengeshomsft/aks-multi-stages-deployment/assets/86074746/8c9dd9b0-bf48-4f9f-843d-11dd81682fc2)
 
 
 # Deployment with TF-Controller
@@ -87,4 +98,10 @@ spec:
     name: vm-admin-password-secret
 ```
 
+### References:
+
+1. **Azurerm AKS Cluster Module**: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
+2. **Azurerm AKS Nodepool Module**: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool
+3. **AKS Landing Zone Accelerator Project**: https://github.com/Azure/AKS-Landing-Zone-Accelerator
+4. **Control Egress Traffic on AKS**: https://learn.microsoft.com/en-us/azure/aks/limit-egress-traffic
 
