@@ -7,7 +7,7 @@ spec:
   interval: 30s
   url: https://github.com/jmasengeshomsft/aks-multi-stages-deployment
   ref:
-    branch: brent
+    branch: develop
   # secretRef:
   #   name: aks-playground-secret
   
