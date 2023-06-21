@@ -1,6 +1,6 @@
 # Azure Infrastructure #
 
-This is Terraform for creating an AKS Landing Zone in Azure.  There are 4 key Terraform scripts in this repo to break the construction up logically into different areas that different groups might control.
+This is Terraform for creating an AKS Landing Zone in Azure.  There are 5 key Terraform scripts in this repo to break the construction up logically into different areas that different groups might control.
 
 1.  **Networking (lz-networking)**.  This will create a Hub Resource Group and a VNet as well as an Azure Firewall with Policies for AKS.
 2.  **AKS Resource group and AKS components (aks-core-infra)**.  This script will create a Resource Group for AKS as well as a separate spoke VNet that is peered with the Hub Net.  Optionally you can use this script to create necessary components like managed identities, KeyVault, ACR, etc.
@@ -98,4 +98,10 @@ spec:
     name: vm-admin-password-secret
 ```
 
+### References:
+
+1. **Azurerm AKS Cluster Module**: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
+2. **Azurerm AKS Nodepool Module**: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool
+3. **AKS Landing Zone Accelerator Project**: https://github.com/Azure/AKS-Landing-Zone-Accelerator
+4. **Control Egress Traffic on AKS**: https://learn.microsoft.com/en-us/azure/aks/limit-egress-traffic
 
