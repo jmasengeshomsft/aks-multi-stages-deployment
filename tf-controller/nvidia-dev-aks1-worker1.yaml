@@ -7,7 +7,7 @@ spec:
   interval: 2m
   destroyResourcesOnDeletion: true
   approvePlan: auto
-  path: ./aks-worker
+  path: ./aks-workers
   sourceRef:
     kind: GitRepository
     name: aks-playground
@@ -23,10 +23,12 @@ spec:
       value: jm-contoso-dev-rg
     - name: aks_cluster_name
       value: contoso-dev-aks1
-    # - name: pod_subnet_name
-    #   value: contoso-dev-aks1-pod-subnet
-    # - name: aks_subnet_name
-    #   value: contoso-dev-aks1-node-subnet
+    - name: spoke_resource_group_name
+      value: jm-contoso-dev-rg
+    - name: spoke_vnet_name
+      value: vnet-spoke-jm-contoso-dev-001
+    - name: pod_subnet_name
+      value: contoso-dev-aks1-pod-subnet
     # - name: location
     #   value: eastus
     # - name: hub_resource_group_name
