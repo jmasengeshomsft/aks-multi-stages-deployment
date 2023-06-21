@@ -29,3 +29,10 @@ variable "spoke_vnet_name" {
   description = "The name of the Vnet"
   type = string
 }
+
+variable "worker_vm_sku" {
+  default     = "Standard_D2s_v3"
+  description = "Size of the VM to use for this worker pool"
+  type        = string 
+}
+

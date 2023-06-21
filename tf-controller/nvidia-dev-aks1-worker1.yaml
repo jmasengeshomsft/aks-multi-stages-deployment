@@ -31,6 +31,8 @@ spec:
       value: contoso-dev-aks1-pod-subnet
     - name: node_subnet_name
       value: contoso-dev-aks1-node-subnet
+    - name: worker_vm_sku
+      value: NC24ads_A100_v4  #   Standard_D2s_v3
     # - name: location
     #   value: eastus
     # - name: hub_resource_group_name
