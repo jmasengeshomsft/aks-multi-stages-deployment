@@ -1,0 +1,52 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  name: az-lz
+  namespace: flux-system
+spec:
+  interval: 2m
+  destroyResourcesOnDeletion: true
+  approvePlan: auto
+  path: ./lz-networking
+  sourceRef:
+    kind: GitRepository
+    name: aks-playground
+    namespace: flux-system
+  runnerPodTemplate:
+    spec:
+      envFrom:
+        - secretRef:
+            name: azure-tf-credentials
+  enableInventory: true
+  vars:
+  - name: location        
+    value: "eastus"
+  - name: hub_prefix     
+    value: "contoso"
+  - name: vm_sku
+    value: "Standard_A0"
+  - name: fw_sku
+    value:  "Basic"
+  - name: fw_policy_sku
+    value: "Basic"
+  - name: hub_address_space                  
+    value: "10.100.0.0/22"
+  - name: bastion_subnet_address_space        
+    value: "10.100.3.0/27"
+  - name: firewall_subnet_address_space       
+    value: "10.100.3.64/26"
+  - name: mgmt_firewall_subnet_address_space 
+    value: "10.100.3.128/26"
+  - name: applicationgw_subnet_address_space 
+    value: "10.100.1.0/24"
+  - name: jumpbox_subnet_address_space        
+    value: "10.100.0.0/24"
+  - name: aks_spoke_address_space             
+    value: "10.101.0.0/16"
+  - name: plendpoints_subnet_address_space    
+    value: "10.101.80.0/24"
+  - name: default_spoke_name 
+    value: "jm-contoso-dev"
+  varsFrom:
+  - kind: Secret
+    name: vm-admin-password-secret

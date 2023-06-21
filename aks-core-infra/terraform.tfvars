@@ -1,0 +1,7 @@
+environment = "dev"
+spoke_name = "contoso-dev"
+hub_vnet_name = "vnet-hub-contoso"
+hub_resource_group_name = "contoso-hub-rg"
+spoke_vnet_name = "vnet-spoke-contoso-dev-001"
+privatelink_subnet_name = "sn-plendpoints"
+spoke_resource_group_name = "contoso-dev-rg"

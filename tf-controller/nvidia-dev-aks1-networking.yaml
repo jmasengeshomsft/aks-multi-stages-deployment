@@ -1,0 +1,37 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  name: contoso-dev-aks1
+  namespace: flux-system
+spec:
+  interval: 2m
+  destroyResourcesOnDeletion: true
+  approvePlan: auto
+  path: ./cluster-networking
+  sourceRef:
+    kind: GitRepository
+    name: aks-playground
+    namespace: flux-system
+  runnerPodTemplate:
+    spec:
+      envFrom:
+        - secretRef:
+            name: azure-tf-credentials
+  enableInventory: true
+  vars:
+    - name: spoke_name
+      value: jm-contoso-dev
+    - name: spoke_resource_group_name
+      value: jm-contoso-dev-rg
+    - name: spoke_vnet_name
+      value: vnet-spoke-jm-contoso-dev-001
+    - name: aks_cluster_name
+      value: contoso-dev-aks1
+    - name: route_table_name
+      value: rt-aks
+    - name: pod_subnet_address_space
+      value: "10.101.0.0/18"
+    - name: node_subnet_address_space
+      value: "10.101.64.0/20"
+    - name: environment
+      value: dev
