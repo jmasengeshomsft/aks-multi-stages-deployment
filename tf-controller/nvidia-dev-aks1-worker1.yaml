@@ -7,7 +7,7 @@ spec:
   interval: 2m
   destroyResourcesOnDeletion: true
   approvePlan: auto
-  path: ./aks-worker
+  path: ./aks-workers
   sourceRef:
     kind: GitRepository
     name: aks-playground
