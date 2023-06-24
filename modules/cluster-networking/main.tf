@@ -69,5 +69,5 @@ resource "azurerm_subnet_network_security_group_association" "nodes_nsg_associat
 
 resource "azurerm_subnet_network_security_group_association" "pods_nsg_association" {
   subnet_id                 = azurerm_subnet.sn-pods.id
-  network_security_group_id = module.nodes-nsg.nsg.id
+  network_security_group_id = module.pods-nsg.nsg.id
 }
