@@ -49,6 +49,7 @@ variable "aks_subnet_name" {
 
 variable "pod_subnet_name" {
     description = "The name of the subnet to attach to the udr"
+    default = null
 }
 
 variable "privatelink_subnet_name" {

@@ -33,6 +33,8 @@ spec:
       value: contoso-dev-aks1-node-subnet
     - name: location
       value: eastus
+    - name: network_plugin_mode
+      value: Overlay
     - name: hub_resource_group_name
       value: "contoso-hub-rg"
     - name: privatelink_subnet_name

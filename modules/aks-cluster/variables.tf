@@ -20,6 +20,7 @@ variable "aks_subnet_id" {
 
 variable "pod_subnet_id" {
     description = "The id of the subnet to attach to the udr"
+    default = null
 }
 
 variable "public_ssh_key" {
