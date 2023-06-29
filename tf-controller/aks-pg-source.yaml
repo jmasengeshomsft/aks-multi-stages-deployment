@@ -8,6 +8,6 @@ spec:
   url: https://github.com/jmasengeshomsft/aks-multi-stages-deployment
   ref:
     branch: develop
-  # secretRef:
+  # secretRef:   # Provide this if your repository is private
   #   name: aks-playground-secret
   

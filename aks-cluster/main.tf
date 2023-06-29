@@ -123,7 +123,7 @@ module "azurerm_aks_cluster" {
   virtual_network_name                   = data.azurerm_virtual_network.spoke_vnet.name 
   vnet_resource_group_name               = var.spoke_resource_group_name
   aks_subnet_id                          = data.azurerm_subnet.aks_subnet.id
-  pod_subnet_id                          = data.azurerm_subnet.pod_subnet.id
+  # pod_subnet_id                          = data.azurerm_subnet.pod_subnet.id
   default_pool_max_pods                  = var.default_pool_max_pods
   tenant_id                              = var.aad_tenant_id
   azure_aad_admin_group_id               = var.azure_aad_admin_group_id
