@@ -117,8 +117,6 @@ variable "network_plugin" {
 
 variable "network_plugin_mode" {
     description = "The network mode: Overlay"
-    #default     = "Overlay"
-    default     = null
 }
 
 variable "ebpf_data_plane" {
