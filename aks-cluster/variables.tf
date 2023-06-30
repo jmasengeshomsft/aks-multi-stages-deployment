@@ -116,12 +116,13 @@ variable "network_plugin" {
 }
 
 variable "network_plugin_mode" {
-    description = "The network mode: Overlay"
+    description = "The network mode: overlay"
+    default     = null
 }
 
 variable "ebpf_data_plane" {
     description = "Specifies the eBPF data plane used for building the Kubernetes network"
-    default     = "cilium"
+    default     = null
 }
 
 variable "network_policy" {

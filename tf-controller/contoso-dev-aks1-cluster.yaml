@@ -34,12 +34,12 @@ spec:
     - name: location
       value: eastus
     - name: network_plugin_mode
-      value: Overlay
+      value: overlay
+    - name: ebpf_data_plane
+      value: cilium
     - name: hub_resource_group_name
       value: "contoso-hub-rg"
     - name: privatelink_subnet_name
       value: "sn-plendpoints"
-    - name: network_plugin_mode
-      value: null
     - name: environment
       value: dev
