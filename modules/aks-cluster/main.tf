@@ -70,7 +70,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   network_profile {
       network_plugin      = var.network_plugin
       network_plugin_mode = var.network_plugin_mode
-      # ebpf_data_plane     = var.ebpf_data_plane
+      ebpf_data_plane     = var.ebpf_data_plane
       service_cidr        = var.service_cidr
       dns_service_ip      = var.dns_service_ip
       outbound_type       = var.outbound_type
