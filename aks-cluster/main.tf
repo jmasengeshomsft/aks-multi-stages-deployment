@@ -30,11 +30,11 @@ data "azurerm_virtual_network" "hub_vnet" {
 #   resource_group_name = local.sre_rg 
 # }
 
-data "azurerm_subnet" "pod_subnet" {
-  name                 = var.pod_subnet_name
-  virtual_network_name = var.spoke_vnet_name
-  resource_group_name  = var.spoke_resource_group_name
-}
+# data "azurerm_subnet" "pod_subnet" {
+#   name                 = var.pod_subnet_name
+#   virtual_network_name = var.spoke_vnet_name
+#   resource_group_name  = var.spoke_resource_group_name
+# }
 
 data "azurerm_subnet" "aks_subnet" {
   name                 = var.aks_subnet_name
