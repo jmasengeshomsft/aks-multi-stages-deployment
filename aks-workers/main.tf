@@ -15,7 +15,7 @@ module "worker_pool" {
   source                      = "../modules/aks-node-pools/"
   aks_cluster_resource_group  = var.aks_cluster_resource_group
   aks_cluster_name            = var.aks_cluster_name
-  pod_subnet_id               = data.azurerm_subnet.pod_subnet.id
+  # pod_subnet_id               = data.azurerm_subnet.pod_subnet.id
   vnet_subnet_id              = data.azurerm_subnet.node_subnet.id
   worker_vm_sku               = var.worker_vm_sku
 } 
