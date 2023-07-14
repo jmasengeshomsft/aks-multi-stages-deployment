@@ -10,7 +10,7 @@ spec:
   path: ./aks-cluster
   sourceRef:
     kind: GitRepository
-    name: aks-playground
+    name: aks-playground-source
     namespace: flux-system
   runnerPodTemplate:
     spec:
@@ -27,17 +27,17 @@ spec:
       value: vnet-spoke-jm-contoso-dev-001
     - name: aks_cluster_name
       value: contoso-dev-aks2
-    - name: pod_subnet_name
-      value: contoso-dev-aks2-pod-subnet
     - name: aks_subnet_name
-      value: contoso-dev-aks2-node-subnet
+      value: contoso-dev-aks1-node-subnet
     - name: location
       value: eastus
+    - name: network_plugin_mode
+      value: overlay
+    - name: ebpf_data_plane
+      value: cilium
     - name: hub_resource_group_name
       value: "contoso-hub-rg"
     - name: privatelink_subnet_name
       value: "sn-plendpoints"
-    - name: network_plugin_mode
-      value: null
     - name: environment
       value: dev

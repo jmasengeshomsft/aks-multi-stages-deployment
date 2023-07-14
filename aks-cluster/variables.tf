@@ -130,10 +130,10 @@ variable "network_policy" {
     default     = "calico"
 }
 
-variable "docker_bridge_cidr" {
-    description = "Docker Address Space"
-    default     = "10.245.0.1/16"
-}
+# variable "docker_bridge_cidr" {
+#     description = "Docker Address Space"
+#     default     = "10.245.0.1/16"
+# }
 # variable "workspace_name" {
 #     description = "The name of the log analytics workspace"
 # }
