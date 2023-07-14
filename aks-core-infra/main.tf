@@ -17,7 +17,7 @@ locals {
     storage_account_name = "${replace(var.spoke_name, "-", "")}strg002"
     acr_name                        = "${replace(var.spoke_name, "-", "")}acr002"
     key_vault_name                  = "${replace(var.spoke_name, "-", "")}kv002"
-    law_name                        = "${var.spoke_name}-law001"
+    law_name                        = "${var.spoke_name}-law002"
     location                        = data.azurerm_resource_group.spoke_rg.location
     spoke_resource_group_name       = data.azurerm_resource_group.spoke_rg.name
     private_link_subnet_id          = data.azurerm_subnet.private_link_subnet.id

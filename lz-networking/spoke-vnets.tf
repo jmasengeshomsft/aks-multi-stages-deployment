@@ -51,3 +51,4 @@ locals {
   private_dns_zones                 = local.private_dns_zones
   # hub_prefix = var.hub_prefix
 }
+
