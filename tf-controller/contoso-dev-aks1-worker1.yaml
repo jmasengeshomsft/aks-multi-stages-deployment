@@ -10,7 +10,7 @@ spec:
   path: ./aks-workers
   sourceRef:
     kind: GitRepository
-    name: aks-playground
+    name: aks-playground-source
     namespace: flux-system
   runnerPodTemplate:
     spec:
@@ -33,11 +33,3 @@ spec:
       value: contoso-dev-aks1-node-subnet
     - name: worker_vm_sku
       value: Standard_D2s_v3
-    # - name: location
-    #   value: eastus
-    # - name: hub_resource_group_name
-    #   value: "contoso-hub-rg"
-    # - name: privatelink_subnet_name
-    #   value: "sn-plendpoints"
-    # - name: network_plugin_mode
-    #   value: null

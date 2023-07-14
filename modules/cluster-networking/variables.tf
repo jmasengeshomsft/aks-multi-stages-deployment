@@ -22,18 +22,18 @@ variable "nodes_nsg_name" {
 }
 
 
-variable "pod_subnet_name" {
-    description = "The name of the subnet to attach to the udr"
-}
+# variable "pod_subnet_name" {
+#     description = "The name of the subnet to attach to the udr"
+# }
 
-variable "pod_subnet_address_space" {
-  type = string
-}
+# variable "pod_subnet_address_space" {
+#   type = string
+# }
 
 
-variable "pods_nsg_name" {
-    description = "The name of the nsg for the pods subnet"
-}
+# variable "pods_nsg_name" {
+#     description = "The name of the nsg for the pods subnet"
+# }
 
 
 variable "route_table_name" {

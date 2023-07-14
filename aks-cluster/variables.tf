@@ -49,6 +49,7 @@ variable "aks_subnet_name" {
 
 variable "pod_subnet_name" {
     description = "The name of the subnet to attach to the udr"
+    default = null
 }
 
 variable "privatelink_subnet_name" {
@@ -115,14 +116,13 @@ variable "network_plugin" {
 }
 
 variable "network_plugin_mode" {
-    description = "The network mode: Overlay"
-    #default     = "Overlay"
+    description = "The network mode: overlay"
     default     = null
 }
 
 variable "ebpf_data_plane" {
     description = "Specifies the eBPF data plane used for building the Kubernetes network"
-    default     = "cilium"
+    default     = null
 }
 
 variable "network_policy" {
@@ -130,10 +130,10 @@ variable "network_policy" {
     default     = "calico"
 }
 
-variable "docker_bridge_cidr" {
-    description = "Docker Address Space"
-    default     = "10.245.0.1/16"
-}
+# variable "docker_bridge_cidr" {
+#     description = "Docker Address Space"
+#     default     = "10.245.0.1/16"
+# }
 # variable "workspace_name" {
 #     description = "The name of the log analytics workspace"
 # }

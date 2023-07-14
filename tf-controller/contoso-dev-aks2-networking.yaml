@@ -10,7 +10,7 @@ spec:
   path: ./cluster-networking
   sourceRef:
     kind: GitRepository
-    name: aks-playground
+    name: aks-playground-source
     namespace: flux-system
   runnerPodTemplate:
     spec:
@@ -29,8 +29,6 @@ spec:
       value: contoso-dev-aks2
     - name: route_table_name
       value: rt-aks
-    - name: pod_subnet_address_space
-      value: "10.101.160.0/21"
     - name: node_subnet_address_space
       value: "10.101.168.0/21"
     - name: environment

@@ -56,7 +56,7 @@ spec:
   path: ./lz-networking
   sourceRef:
     kind: GitRepository
-    name: aks-playground
+    name: aks-playground-source
     namespace: flux-system
   runnerPodTemplate:
     spec:

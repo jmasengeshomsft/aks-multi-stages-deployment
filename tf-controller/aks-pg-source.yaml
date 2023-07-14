@@ -1,13 +1,13 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
-  name: aks-playground
+  name: aks-playground-source
   namespace: flux-system
 spec:
   interval: 30s
   url: https://github.com/jmasengeshomsft/aks-multi-stages-deployment
   ref:
     branch: develop
-  # secretRef:
-  #   name: aks-playground-secret
+  # secretRef:   # Provide this if your repository is private
+  #   name: aks-playground-source-secret
   

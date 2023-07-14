@@ -20,6 +20,7 @@ variable "aks_subnet_id" {
 
 variable "pod_subnet_id" {
     description = "The id of the subnet to attach to the udr"
+    default = null
 }
 
 variable "public_ssh_key" {
@@ -93,7 +94,6 @@ variable "network_plugin" {
 
 variable "network_plugin_mode" {
     description = "The network plugin mode: Overlay"
-    default     = null
 }
 
 variable "ebpf_data_plane" {

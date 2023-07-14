@@ -19,21 +19,21 @@ resource "azurerm_subnet" "aks" {
 }
 
 # Pod Subnet
-resource "azurerm_subnet" "sn-pods" {
-  name                                      = var.pod_subnet_name
-  resource_group_name                       = data.azurerm_resource_group.spoke_rg.name
-  virtual_network_name                      = data.azurerm_virtual_network.spoke_vnet.name
-  address_prefixes                          = [var.pod_subnet_address_space]
-  private_endpoint_network_policies_enabled = true 
-  delegation {
-    name = "delegation"
+# resource "azurerm_subnet" "sn-pods" {
+#   name                                      = var.pod_subnet_name
+#   resource_group_name                       = data.azurerm_resource_group.spoke_rg.name
+#   virtual_network_name                      = data.azurerm_virtual_network.spoke_vnet.name
+#   address_prefixes                          = [var.pod_subnet_address_space]
+#   private_endpoint_network_policies_enabled = true 
+#   delegation {
+#     name = "delegation"
 
-    service_delegation {
-      name    = "Microsoft.ContainerService/managedClusters"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
-    }
-  }
-}
+#     service_delegation {
+#       name    = "Microsoft.ContainerService/managedClusters"
+#       actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
+#     }
+#   }
+# }
 
 # Route Table
 data "azurerm_route_table" "aks_rt" {
@@ -60,12 +60,12 @@ resource "azurerm_subnet_network_security_group_association" "nodes_nsg_associat
 }
 
 #Pods NSG
- module "pods-nsg" {
-  source              = "../nsg"
-  nsg_name            = var.pods_nsg_name
-  location            = data.azurerm_resource_group.spoke_rg.location
-  resource_group_name = var.spoke_resource_group_name
-}
+#  module "pods-nsg" {
+#   source              = "../nsg"
+#   nsg_name            = var.pods_nsg_name
+#   location            = data.azurerm_resource_group.spoke_rg.location
+#   resource_group_name = var.spoke_resource_group_name
+# }
 
 resource "azurerm_subnet_network_security_group_association" "pods_nsg_association" {
   subnet_id                 = azurerm_subnet.sn-pods.id
