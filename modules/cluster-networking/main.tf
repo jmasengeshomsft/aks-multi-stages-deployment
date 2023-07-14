@@ -67,7 +67,7 @@ resource "azurerm_subnet_network_security_group_association" "nodes_nsg_associat
 #   resource_group_name = var.spoke_resource_group_name
 # }
 
-resource "azurerm_subnet_network_security_group_association" "pods_nsg_association" {
-  subnet_id                 = azurerm_subnet.sn-pods.id
-  network_security_group_id = module.pods-nsg.nsg.id
-}
+# resource "azurerm_subnet_network_security_group_association" "pods_nsg_association" {
+#   subnet_id                 = azurerm_subnet.sn-pods.id
+#   network_security_group_id = module.pods-nsg.nsg.id
+# }
