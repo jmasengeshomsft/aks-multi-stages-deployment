@@ -98,6 +98,23 @@ spec:
     name: vm-admin-password-secret
 ```
 
+## Authentication with TF-Controller
+
+The secret azure-tf-credentials referenced in the Terraform CRD above can be created as follows:
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: azure-tf-credentials
+  namespace: flux-system
+type: Opaque
+data:
+  ARM_CLIENT_ID: <value>
+  ARM_CLIENT_SECRET:<value>
+  ARM_SUBSCRIPTION_ID: <value>
+  ARM_TENANT_ID: <value>
+```
+
 ### References:
 
 1. **Azurerm AKS Cluster Module**: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
