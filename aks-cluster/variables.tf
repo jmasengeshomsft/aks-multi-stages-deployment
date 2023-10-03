@@ -72,7 +72,7 @@ variable "aks_cluster_name" {
 
 # variable "workload_vm_size" {
 #     description = "Workload vm sizes"
-#     default     =  "Standard_D2_v2"
+#     default     =  "Standard_D3_v2"
 # }
 
 # variable "default_nodepool_subnet" {
@@ -101,7 +101,7 @@ variable "default_node_count" {
 
 variable "default_vm_size" {
     description = "VM Size"
-    default     = "Standard_D2_v2"
+    default     = "Standard_D3_v2"
 }
 
 variable "node_pool_type" {
@@ -116,7 +116,6 @@ variable "network_plugin" {
 
 variable "network_plugin_mode" {
     description = "The network mode: Overlay"
-    #default     = "Overlay"
     default     = null
 }
 
@@ -127,7 +126,7 @@ variable "ebpf_data_plane" {
 
 variable "network_policy" {
     description = "The network plugin: Azure/Kubenet"
-    default     = "calico"
+    default     = "cilium"
 }
 
 variable "docker_bridge_cidr" {

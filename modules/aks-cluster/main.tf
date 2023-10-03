@@ -20,21 +20,22 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
 
   default_node_pool {
-    name                    = "default"
-    # node_count              = var.default_node_count
-    vm_size                 = var.default_vm_size
-    type                    = var.node_pool_type 
-    tags                    = var.tags
-    max_pods                = var.default_pool_max_pods
-    vnet_subnet_id          = var.aks_subnet_id
-    pod_subnet_id           = var.pod_subnet_id
-    enable_host_encryption  = false
-    enable_auto_scaling     = true
-    min_count               = var.default_node_count
-    max_count               = 10
-    zones                   = ["1","2","3"]
-    node_labels             = {
-      workload_type = "system"
+    name                        = "default"
+    # node_count                = var.default_node_count
+    vm_size                     = var.default_vm_size
+    type                        = var.node_pool_type 
+    tags                        = var.tags
+    max_pods                    = var.default_pool_max_pods
+    vnet_subnet_id              = var.aks_subnet_id
+    pod_subnet_id               = var.pod_subnet_id
+    enable_host_encryption      = false
+    enable_auto_scaling         = true
+    temporary_name_for_rotation = "temporary"
+    min_count                   = var.default_node_count
+    max_count                   = 10
+    zones                       = ["1","2","3"]
+    node_labels                 = {
+      workload_type             = "system"
     }
   }
 
@@ -74,7 +75,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
       service_cidr        = var.service_cidr
       dns_service_ip      = var.dns_service_ip
       outbound_type       = var.outbound_type
-      # network_policy      = var.network_policy
+      network_policy      = var.network_policy
   }
 
   storage_profile {

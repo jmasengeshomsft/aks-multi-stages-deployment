@@ -13,7 +13,7 @@ variable "tags" {
   type = map(string)
 
   default = {
-    project = "cs-aks"
+    project = "ebm-aks"
   }
 }
 
@@ -45,6 +45,9 @@ variable "jumpbox_subnet_address_space" {
   
 }
 
+variable "aks_spoke_address_space" {
+  
+}
 
 variable "fw_sku_name" {
   default = "AZFW_VNet"

@@ -18,7 +18,6 @@ locals {
     ai_name                         = "${replace(var.spoke_name, "-", "")}ai001"
     location                        = var.location 
     spoke_resource_group_name       = var.spoke_resource_group_name 
-    #private_link_subnet_id          = data.azurerm_subnet.private_link_subnet.id
     private_link_subnet_id          = data.azurerm_subnet.private_link_subnet.id
 }
 
@@ -32,6 +31,7 @@ resource "azurerm_log_analytics_workspace" "spoke_law" {
   internet_ingestion_enabled      = true
   internet_query_enabled          = true
   tags                            = var.tags
+  depends_on                      = [module.dev-spoke]
 }
 
 module "key_vault" {
@@ -42,6 +42,7 @@ module "key_vault" {
   sku_name                    = var.key_vault_sku_name
   key_vault_subnet_id         = local.private_link_subnet_id
   tags                        = var.tags
+  depends_on                  = [module.dev-spoke]
 } 
 
 module "key_vault_dns_a_record" {
@@ -51,6 +52,7 @@ module "key_vault_dns_a_record" {
   dns_a_record_name          = module.key_vault.kv.name
   dns_name_ip_value          = module.key_vault.kv_private_link.private_service_connection[0].private_ip_address
   tags                       = var.tags
+  depends_on                 = [module.dev-spoke]
 }
 
 #container registry
@@ -63,6 +65,7 @@ module "container_registry" {
   private_zone_id            = data.azurerm_private_dns_zone.acr.id
   //geo_replication_region     = var.geo_replication_region
   tags                       = var.tags
+  depends_on                 = [module.dev-spoke]
 }
 
 #storage account
@@ -73,6 +76,7 @@ module "storage_account" {
   resource_group_name         = local.spoke_resource_group_name
   subnet_id                   = local.private_link_subnet_id
   tags                        = var.tags
+  depends_on                  = [module.dev-spoke]
 } 
 
 module "storage_account_dns_a_record_file" {
@@ -82,6 +86,7 @@ module "storage_account_dns_a_record_file" {
   dns_a_record_name          = module.storage_account.storage.name
   dns_name_ip_value          = module.storage_account.storage_private_endpoint_file.private_service_connection[0].private_ip_address
   tags                       = var.tags
+  depends_on                 = [module.dev-spoke]
 }
 
 module "storage_account_dns_a_record_blob" {
@@ -91,6 +96,7 @@ module "storage_account_dns_a_record_blob" {
   dns_a_record_name          = module.storage_account.storage.name
   dns_name_ip_value          = module.storage_account.storage_private_endpoint_blob.private_service_connection[0].private_ip_address
   tags                       = var.tags
+  depends_on                 = [module.dev-spoke]
 }
 
 module "application_insights" {
@@ -100,5 +106,5 @@ module "application_insights" {
   resource_group_name         = local.spoke_resource_group_name
   law_workspace_id            = azurerm_log_analytics_workspace.spoke_law.id
   tags                        = var.tags
-  depends_on                  = [module.azurerm_log_analytics_workspace.spoke_law]
+  depends_on                  = [azurerm_log_analytics_workspace.spoke_law]
 }

@@ -152,6 +152,14 @@ module "azurerm_aks_cluster" {
   tags                                   = var.tags
 }
 
+module "worker_pool" {
+  source                      = "../modules/aks-node-pools/"
+  aks_cluster_resource_group  = data.azurerm_resource_group.spoke_rg.name 
+  aks_cluster_name            = local.aks_cluster_name
+  pod_subnet_id               = data.azurerm_subnet.pod_subnet.id
+  vnet_subnet_id              = data.azurerm_subnet.aks_subnet.id
+} 
+
 # resource "azurerm_private_dns_zone_virtual_network_link" "aks_sre_vnet" {
 #   name                  = "hub_vnet_link"
 #   resource_group_name   = data.azurerm_resource_group.spoke_rg.name

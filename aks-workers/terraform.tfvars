@@ -1,2 +1,2 @@
-aks_cluster_name            = "nvidia-dev-aks001"
-aks_cluster_resource_group  = "nvidia-dev-rg"
+aks_cluster_name            = "ebm-private-devel-aks001"
+aks_cluster_resource_group  = "ebm-private-dev-rg"
